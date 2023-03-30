@@ -5,7 +5,7 @@ jobs:
         runs-on: self-hosted
         steps:
             - name: Yabber about Shrugs
-             run: |
+              run: |
                echo "Are shrugs great?"
                echo "Who knows?"
                echo "Lets do a few?!"
