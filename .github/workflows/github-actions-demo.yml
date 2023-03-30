@@ -1,17 +1,29 @@
-name: Gtihub Actions Demo
+name: Deploy Infra
 on: [push]
 jobs:
     Explore-GitHub-Actions:
         runs-on: self-hosted
         steps:
+
+            # Noise:
             - name: Yabber about Shrugs
               run: |
                echo "Are shrugs great?"
                echo "Who knows?"
                echo "Lets do a few?!"
+
             - name: Check out repository code
               uses: actions/checkout@v3
+
+            # Troubleshooting:
             - name: List files in the repository
               run: |
                 ls -alh ${{ github.workspace }}
+            
+            # Log into Azure:
+            - uses: azure/login@v1
+              with:
+                creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            # Print output:
             - run: echo "This job's status is ${{ job.status }}"
