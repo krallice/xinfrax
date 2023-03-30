@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": {
+            "value": {
+                "sjr-blue": {
+                    "name": "sjr-blue",
+                    "rg": "sjr-blue-rg",
+                    "location": "australiaeast",
+                    "micount": 2
+                },
+                "sjr-red": {
+                    "name": "sjr-red",
+                    "rg": "sjr-red-rg",
+                    "location": "australiaeast",
+                    "micount": 4
+                }
+            }
+        }
+    }
+}
