@@ -34,5 +34,13 @@ jobs:
                 template: ./main.bicep
                 parameters: ./main.parameters.json environmentName=sjr-blue
 
+            - name: Deploy SJR-Red
+              uses: azure/arm-deploy@v1
+              with:
+                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+                resourceGroupName: sjr-red-rg
+                template: ./main.bicep
+                parameters: ./main.parameters.json environmentName=sjr-red
+
             # Print output:
             - run: echo "This job's status is ${{ job.status }}"
