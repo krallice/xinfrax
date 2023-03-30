@@ -1,0 +1,15 @@
+name: Gtihub Actions Demo
+on: [push]
+jobs:
+    Explore-GitHub-Actions:
+        runs-on: self-hosted
+        steps:
+            - run: echo "Barbell Shrugs"
+            - run: echo "For"
+            - run: echo "Traps"
+            - name: Check out repository code
+              uses: actions/checkout@v3
+            - name: List files in the repository
+              run: |
+                ls ${{ github.workspace }}
+            - run: echo "This job's status is ${{ job.status }}"
