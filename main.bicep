@@ -1,7 +1,10 @@
 param environment object
+param environmentName string
 
-resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = [for (item, index) in environment.micount: {
-  name: '${environment.name}-mi-${index}'
-  location: environment.location
+var env = environment[environmentName]
+
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = [for (item, index) in env.micount: {
+  name: '${env.name}-mi-${index}'
+  location: env.location
 }]
 
