@@ -1,3 +1,5 @@
+### This is an example of a 2 environment deployment model, that has NO approval / no requirement for GH environments
+
 name: Deploy Infra
 on: [push]
 jobs:
