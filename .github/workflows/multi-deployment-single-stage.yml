@@ -3,46 +3,54 @@
 name: Deploy Infra
 on: [push]
 jobs:
-    Deploy-Infra:
-        runs-on: self-hosted
-        steps:
+    Deploy-Blue:
+      runs-on: self-hosted
+      environment: BLUE
+      steps:
 
-            # Noise:
-            - name: Yabber about Shrugs
-              run: |
-               echo "Are shrugs great?"
-               echo "Who knows?"
-               echo "Lets do a few?!"
+        # Noise:
+        - name: Yabber about Shrugs
+          run: |
+            echo "Are shrugs great?"
+            echo "Who knows?"
+            echo "Lets do a few?!"
 
-            - name: Check out repository code
-              uses: actions/checkout@v3
+        - name: Check out repository code
+          uses: actions/checkout@v3
 
-            # Troubleshooting:
-            - name: List files in the repository
-              run: |
-                ls -alh ${{ github.workspace }}
-            
-            # Log into Azure:
-            - uses: azure/login@v1
-              with:
-                creds: ${{ secrets.AZURE_CREDENTIALS }}
+        # Troubleshooting:
+        - name: List files in the repository
+          run: |
+            ls -alh ${{ github.workspace }}
+        
+        # Log into Azure:
+        - uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            # Deploy:
-            - name: Deploy SJR-Blue
-              uses: azure/arm-deploy@v1
-              with:
-                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-                resourceGroupName: sjr-blue-rg
-                template: ./main.bicep
-                parameters: ./main.parameters.json environmentName=sjr-blue
+        # Deploy:
+        - name: Deploy SJR-Blue
+          uses: azure/arm-deploy@v1
+          with:
+            subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+            resourceGroupName: sjr-blue-rg
+            template: ./main.bicep
+            parameters: ./main.parameters.json environmentName=sjr-blue
 
-            - name: Deploy SJR-Red
-              uses: azure/arm-deploy@v1
-              with:
-                subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-                resourceGroupName: sjr-red-rg
-                template: ./main.bicep
-                parameters: ./main.parameters.json environmentName=sjr-red
+    Deploy-Red:
+      runs-on: self-hosted
+      environment: RED
+      needs: Deploy-Blue
+      steps:
 
-            # Print output:
-            - run: echo "This job's status is ${{ job.status }}"
+        # Deploy
+        - name: Deploy SJR-Red
+          uses: azure/arm-deploy@v1
+          with:
+            subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+            resourceGroupName: sjr-red-rg
+            template: ./main.bicep
+            parameters: ./main.parameters.json environmentName=sjr-red
+
+        # Print output:
+        - run: echo "This job's status is ${{ job.status }}"
